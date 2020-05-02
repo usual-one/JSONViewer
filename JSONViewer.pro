@@ -16,11 +16,29 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    logics/src/exception/JSONException.cpp \
+    logics/src/logics.cpp \
     main.cpp \
     UI/src/mainwindow.cpp
 
 HEADERS += \
-    UI/include/mainwindow.h
+    UI/include/color_scheme/editor_color_schemes/monokai.h \
+    UI/include/color_scheme/global_color_schemes/dark_yaru.h \
+    UI/include/config.h \
+    UI/include/mainwindow.h \
+    logics/include/JSON_data_types/JSONDT.h \
+    logics/include/JSON_data_types/complex/Array.h \
+    logics/include/JSON_data_types/complex/ComplexDT.h \
+    logics/include/JSON_data_types/complex/KeyValuePair.h \
+    logics/include/JSON_data_types/complex/Object.h \
+    logics/include/JSON_data_types/simple/Boolean.h \
+    logics/include/JSON_data_types/simple/Null.h \
+    logics/include/JSON_data_types/simple/Number.h \
+    logics/include/JSON_data_types/simple/SimpleDT.h \
+    logics/include/JSON_data_types/simple/String.h \
+    logics/include/exception/FileException.h \
+    logics/include/exception/JSONException.h \
+    logics/include/logics.h
 
 FORMS += \
     mainwindow.ui

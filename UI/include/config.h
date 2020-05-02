@@ -1,0 +1,8 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define EDITOR_COLOR_SCHEME MONOKAI
+
+#define GLOBAL_COLOR_SCHEME DARK_YARU
+
+#endif // CONFIG_H
