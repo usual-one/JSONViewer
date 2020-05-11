@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    UI/src/setting_palettes.cpp \
     logic/src/JSON_data_types/JSONDT.cpp \
     logic/src/JSON_data_types/complex/Array.cpp \
     logic/src/JSON_data_types/complex/KeyValuePair.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     UI/include/color_scheme/global_color_schemes/dark_yaru.h \
     UI/include/config.h \
     UI/include/mainwindow.h \
+    UI/include/setting_palettes.h \
     logic/include/JSON_data_types/DT_headers.h \
     logic/include/JSON_data_types/JSONDT.h \
     logic/include/JSON_data_types/complex/Array.h \

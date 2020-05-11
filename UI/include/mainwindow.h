@@ -16,6 +16,8 @@ public:
     ~MainWindow();
 
 private slots:
+    void setPalettes();
+
     void newFile();
 
     void openFile();

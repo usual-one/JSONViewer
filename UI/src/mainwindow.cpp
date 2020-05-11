@@ -4,7 +4,11 @@
 #include "logic/include/logic.h"
 #include "logic/include/exception/JSON_DT/DT_exception_headers.h"
 
+#include "UI/include/setting_palettes.h"
+
 #include <QFileDialog>
+#include <QShortcut>
+#include <QDebug>
 
 const size_t ERROR_DISPLAYING_TIMEOUT = 5000;
 
@@ -19,14 +23,27 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actSave, SIGNAL(triggered()), this, SLOT(saveFile()));
     connect(ui->actSaveAs, SIGNAL(triggered()), this, SLOT(saveFileAs()));
     connect(ui->actExit, SIGNAL(triggered()), this, SLOT(exit()));
+
     connect(ui->actFindMistakes, SIGNAL(triggered()), this, SLOT(findMistakes()));
     connect(ui->actAutoFormat, SIGNAL(triggered()), this, SLOT(autoFormat()));
+
     connect(ui->actLineWrap, SIGNAL(changed()), this, SLOT(switchLineWrap()));
+
+    setPalettes();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::setPalettes()
+{
+    setDefaultPalette(ui->plnte_main);
+    setDefaultPalette(this);
+    setDefaultPalette(ui->menuFile);
+    setDefaultPalette(ui->menuEdit);
+    setDefaultPalette(ui->menuView);
 }
 
 void MainWindow::newFile() {
@@ -36,10 +53,13 @@ void MainWindow::newFile() {
 
 void MainWindow::openFile() {
     path_ = QFileDialog::getOpenFileName(this, tr("Open"), "../JSONViewer/resource", tr("JSON (*.json)"));
+    if (!path_.size()) {
+        return;
+    }
     Operation op;
     QString raw_json = QString::fromStdString(op.loadFile(path_.toStdString()));
-    findMistakes();
     ui->plnte_main->setPlainText(raw_json);
+    findMistakes();
 }
 
 void MainWindow::saveFile() {
@@ -53,6 +73,9 @@ void MainWindow::saveFile() {
 
 void MainWindow::saveFileAs() {
     path_ = QFileDialog::getSaveFileName(this, tr("Save As"), "../JSONViewer/resource/", tr("JSON (*.json)"));
+    if (!path_.size()) {
+        return;
+    }
     saveFile();
 }
 

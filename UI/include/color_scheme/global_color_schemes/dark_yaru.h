@@ -1,4 +1,12 @@
 #ifndef COLOR_SCHEME_DARK_YARU_H
 #define COLOR_SCHEME_DARK_YARU_H
 
+#include <QColor>
+
+const QColor GLOBAL_BACKGROUND_COLOR = QColor(66, 66, 66);
+
+const QColor GLOBAL_DEFAULT_TEXT_COLOR = QColor(247, 247, 247);
+
+const QColor GLOBAL_SELECTED_BACKGROUND_COLOR = QColor(91, 91, 91);
+
 #endif // COLOR_SCHEME_DARK_YARU_H

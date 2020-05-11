@@ -3,6 +3,8 @@
 
 #include <QColor>
 
-const QColor BACKGROUND_COLOR = QColor(39, 40, 34);
+const QColor EDITOR_BACKGROUND_COLOR = QColor(39, 40, 34);
+
+const QColor EDITOR_DEFAULT_TEXT_COLOR = QColor(248, 248, 242);
 
 #endif // COLOR_SCHEME_MONOKAI_H
