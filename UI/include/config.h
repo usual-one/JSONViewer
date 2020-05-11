@@ -1,8 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define EDITOR_COLOR_SCHEME "UI/include/color_scheme/editor_color_schemes/monokai.h"
+#include "UI/include/color_scheme/color_scheme_defines.h"
 
-#define GLOBAL_COLOR_SCHEME "UI/include/color_scheme/global_color_schemes/dark_yaru.h"
+#define EDITOR_COLOR_SCHEME EDITOR_GRUVBOX_DARK
+
+#define GLOBAL_COLOR_SCHEME GLOBAL_YARU_DARK
 
 #endif // CONFIG_H

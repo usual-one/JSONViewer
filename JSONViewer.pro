@@ -35,8 +35,12 @@ SOURCES += \
     UI/src/mainwindow.cpp
 
 HEADERS += \
+    UI/include/color_scheme/color_scheme_defines.h \
+    UI/include/color_scheme/editor_color_schemes/gruvbox_dark.h \
+    UI/include/color_scheme/editor_color_schemes/gruvbox_light.h \
     UI/include/color_scheme/editor_color_schemes/monokai.h \
-    UI/include/color_scheme/global_color_schemes/dark_yaru.h \
+    UI/include/color_scheme/global_color_schemes/yaru_dark.h \
+    UI/include/color_scheme/global_color_schemes/yaru_light.h \
     UI/include/config.h \
     UI/include/mainwindow.h \
     UI/include/setting_palettes.h \
