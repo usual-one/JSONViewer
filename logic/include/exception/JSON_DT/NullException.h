@@ -12,10 +12,10 @@ public:
         JSONException(pos) {}
 
     NullException(const std::string &msg, size_t row = -1, size_t col = -1) :
-        JSONException("NullException: " + msg, row, col) {}
+        JSONException(msg, row, col) {}
 
     NullException(const std::string &msg, const TextPosition &pos) :
-        JSONException("NullException: " + msg, pos) {}
+        JSONException(msg, pos) {}
 };
 
 class NullUnexpectedException : public NullException {

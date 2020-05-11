@@ -12,10 +12,10 @@ public:
         JSONException(pos) {}
 
     StringException(const std::string &msg, size_t row = -1, size_t col = -1) :
-        JSONException ("StringException: " + msg, row, col) {}
+        JSONException (msg, row, col) {}
 
     StringException(const std::string &msg, const TextPosition &pos) :
-        JSONException ("StringException: " + msg, pos) {}
+        JSONException (msg, pos) {}
 };
 
 class StringQuotationException : public StringException {

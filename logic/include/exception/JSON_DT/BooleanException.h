@@ -12,10 +12,10 @@ public:
         JSONException(pos) {}
 
     BooleanException(const std::string &msg, size_t row = -1, size_t col = -1) :
-        JSONException("BooleanException: " + msg, row, col) {}
+        JSONException(msg, row, col) {}
 
     BooleanException(const std::string &msg, const TextPosition &pos) :
-        JSONException("BooleanException: " + msg, pos) {}
+        JSONException(msg, pos) {}
 };
 
 class BooleanUnexpectedException : public BooleanException {

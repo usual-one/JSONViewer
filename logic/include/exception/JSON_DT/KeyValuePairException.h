@@ -12,10 +12,10 @@ public:
         JSONException(pos) {}
 
     KeyValuePairException(const std::string &msg, size_t row = -1, size_t col = -1) :
-        JSONException ("KeyValuePairException: " + msg, row, col) {}
+        JSONException (msg, row, col) {}
 
     KeyValuePairException(const std::string &msg, const TextPosition &pos) :
-        JSONException ("KeyValuePairException: " + msg, pos) {}
+        JSONException (msg, pos) {}
 };
 
 class KeyValuePairNoValueException : public KeyValuePairException {

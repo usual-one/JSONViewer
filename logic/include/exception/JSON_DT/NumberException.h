@@ -12,10 +12,10 @@ public:
         JSONException(pos) {}
 
     NumberException(const std::string &msg, size_t row = -1, size_t col = -1) :
-        JSONException("NumberException: " + msg, row, col) {}
+        JSONException(msg, row, col) {}
 
     NumberException(const std::string &msg, const TextPosition &pos) :
-        JSONException("NumberException: " + msg, pos) {}
+        JSONException(msg, pos) {}
 };
 
 class NumberUnexpectedException : public NumberException {

@@ -6,6 +6,7 @@
 void setDefaultPalette(QPlainTextEdit *widget) {
     QPalette palette = widget->palette();
     palette.setColor(QPalette::Base, EDITOR_BACKGROUND_COLOR);
+    palette.setColor(QPalette::Highlight, EDITOR_SELECTED_BACKGROUND_COLOR);
     palette.setColor(QPalette::Text, EDITOR_DEFAULT_TEXT_COLOR);
     widget->setPalette(palette);
 }

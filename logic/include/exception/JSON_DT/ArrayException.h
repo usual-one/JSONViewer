@@ -12,10 +12,10 @@ public:
         JSONException(pos) {}
 
     ArrayException(const std::string &msg, size_t row = -1, size_t col = -1) :
-        JSONException ("ArrayException: " + msg, row, col) {}
+        JSONException (msg, row, col) {}
 
     ArrayException(const std::string &msg, const TextPosition &pos) :
-        JSONException ("ArrayException: " + msg, pos) {}
+        JSONException (msg, pos) {}
 };
 
 class ArrayBracketException : public ArrayException {

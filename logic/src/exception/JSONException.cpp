@@ -2,30 +2,24 @@
 
 
 JSONException::JSONException(size_t row, size_t col) {
-    msg_ = "JSONException at row " + std::to_string(row) +
-            " col " + std::to_string(col);
+    msg_ = "";
     setPosition(row, col);
 }
 
 JSONException::JSONException(const TextPosition &pos)
 {
-    msg_ = "JSONException at row " + std::to_string(pos.getRow()) +
-            " col " + std::to_string(pos.getColumn());
+    msg_ = "";
     setPosition(pos);
 }
 
 JSONException::JSONException(const std::string &msg, size_t row, size_t col) {
-    msg_ = "JSONException at row " + std::to_string(row) +
-            " col " + std::to_string(col) +
-            ": " + msg;
+    msg_ = msg;
     setPosition(row, col);
 }
 
 JSONException::JSONException(const std::string &msg, const TextPosition &pos)
 {
-    msg_ = "JSONException at row " + std::to_string(pos.getRow()) +
-            " col " + std::to_string(pos.getColumn()) +
-            ": " + msg;
+    msg_ = msg;
     setPosition(pos);
 }
 

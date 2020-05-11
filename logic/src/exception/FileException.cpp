@@ -1,11 +1,11 @@
 #include "logic/include/exception/FileException.h"
 
 FileException::FileException() {
-    msg_ = "FileException";
+    msg_ = "";
 }
 
 FileException::FileException(const std::string &msg) {
-    msg_ = "FileException: " + msg;
+    msg_ = msg;
 }
 
 const char *FileException::what() const noexcept {
