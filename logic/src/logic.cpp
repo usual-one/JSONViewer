@@ -37,3 +37,9 @@ std::string Operation::parseJSON(const std::string &json_string)
     }
     throw JSONException("unexpected character");
 }
+
+void Operation::saveFile(const std::string &path, const std::string &data)
+{
+    std::ofstream file(path);
+    file.write(data.data(), data.size());
+}

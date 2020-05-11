@@ -16,11 +16,25 @@ public:
     ~MainWindow();
 
 private slots:
-    void setPath();
+    void newFile();
 
-    void load();
+    void openFile();
+
+    void saveFile();
+
+    void saveFileAs();
+
+    void exit();
+
+    void findMistakes();
+
+    void autoFormat();
+
+    void switchLineWrap();
 
 private:
     Ui::MainWindow *ui;
+
+    QString path_;
 };
 #endif // MAINWINDOW_H
