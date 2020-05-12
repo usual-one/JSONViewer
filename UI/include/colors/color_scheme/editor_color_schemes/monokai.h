@@ -6,13 +6,17 @@
 
 #include <QColor>
 
-const QColor EDITOR_BACKGROUND_COLOR = QColor(39, 40, 34);
+// background
+const QColor EDITOR_DEFAULT_BACKGROUND_COLOR = QColor(39, 40, 34);
 
 const QColor EDITOR_SELECTED_BACKGROUND_COLOR = QColor(55, 57, 46);
 
 const QColor EDITOR_MISTAKE_BACKGROUND_COLOR = QColor(74, 63, 16);
 
+// text
 const QColor EDITOR_DEFAULT_TEXT_COLOR = QColor(248, 248, 242);
+
+const QColor EDITOR_MISTAKE_TEXT_COLOR = EDITOR_DEFAULT_TEXT_COLOR;
 
 const QColor EDITOR_NUMBER_TEXT_COLOR = QColor(174, 129, 255);
 

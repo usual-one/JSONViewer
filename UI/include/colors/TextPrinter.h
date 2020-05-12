@@ -1,4 +1,0 @@
-#ifndef TEXTPRINTER_H
-#define TEXTPRINTER_H
-
-#endif // TEXTPRINTER_H

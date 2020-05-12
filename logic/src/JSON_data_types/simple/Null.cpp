@@ -3,13 +3,12 @@
 
 #include <cstring>
 
-size_t Null::fromStdString(const std::string &string)
-{
+size_t Null::fromStdString(const std::string &string) {
     setEndPos(getBeginPos());
     std::string null_value = "null";
     size_t char_consumed = 0;
 
-    if (std::strncmp(string.data(), null_value.data(), null_value.size())) {
+    if (!std::strncmp(string.data(), null_value.data(), null_value.size())) {
         char_consumed = null_value.size();
     } else {
         throw NullUnexpectedException(string[0], getEndPos());
@@ -19,7 +18,10 @@ size_t Null::fromStdString(const std::string &string)
     return char_consumed;
 }
 
-std::string Null::toStdString(const std::string &prefix)
-{
-    return prefix + "null";
+std::string Null::toStdString() {
+    return "null";
+}
+
+void Null::printOnWidget(TextHighlighter &highlighter, const std::string &prefix) {
+    highlighter.printNull((prefix + toStdString()).data());
 }

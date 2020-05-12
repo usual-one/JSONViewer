@@ -13,7 +13,13 @@ public:
 
     size_t fromStdString(const std::string &string) final;
 
-    std::string toStdString(const std::string &prefix = "") final;
+    std::string toStdString() final;
+
+    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
+
+    std::unique_ptr<String> &getKey();
+
+    std::unique_ptr<JSONDT> &getValue();
 
 private:
     std::unique_ptr<String> key_;

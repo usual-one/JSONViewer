@@ -20,22 +20,26 @@ std::string Operation::loadFile(const std::string &path)
     return file_text;
 }
 
-std::string Operation::parseJSON(const std::string &json_string)
+std::unique_ptr<JSONDT> Operation::parseJSON(const std::string &json_string)
 {
     if (!json_string.size()) {
-        return std::string("");
+        return nullptr;
     }
     if (json_string[0] == '[') {
-        Array json;
-        json.fromStdString(json_string);
-        return json.toStdString();
+        auto json = std::make_unique<Array>();
+        json->fromStdString(json_string);
+        return json;
     }
     if (json_string[0] == '{') {
-        Object json;
-        json.fromStdString(json_string);
-        return json.toStdString();
+        auto json = std::make_unique<Object>();
+        json->fromStdString(json_string);
+        return json;
     }
     throw JSONException("unexpected character");
+}
+
+void Operation::printOnWidget(JSONDT &json, TextHighlighter &highlighter, const std::string &prefix) {
+    json.printOnWidget(highlighter, prefix);
 }
 
 void Operation::saveFile(const std::string &path, const std::string &data)

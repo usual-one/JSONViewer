@@ -2,6 +2,7 @@
 #define DATA_TYPES_JSONDT_H
 
 #include "logic/include/utils/TextPosition.h"
+#include "UI/include/printing/TextHighlighter.h"
 
 #include <string>
 
@@ -9,7 +10,9 @@ class JSONDT {
 public:
     virtual size_t fromStdString(const std::string &string) = 0;
 
-    virtual std::string toStdString(const std::string &prefix = "") = 0;
+    virtual std::string toStdString() = 0;
+
+    virtual void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") = 0;
 
     TextPosition &getBeginPos();
 

@@ -4,7 +4,8 @@
 #include "logic/include/logic.h"
 #include "logic/include/exception/JSON_DT/DT_exception_headers.h"
 
-#include "UI/include/setting_palettes.h"
+#include "UI/include/colors/setting_palettes.h"
+#include "UI/include/colors/text_highlighting.h"
 
 #include <QFileDialog>
 #include <QShortcut>
@@ -86,52 +87,60 @@ void MainWindow::exit() {
 void MainWindow::findMistakes() {
     QString raw_json = ui->plnte_main->toPlainText();
     Operation op;
-    QString mistake_msg = "No mistakes found!";
+
+    QString mistake_msg = "";
+    std::unique_ptr<JSONDT> json = nullptr;
+    TextPosition mistake_pos;
     try {
-        QString parsed_json = QString::fromStdString(op.parseJSON(raw_json.toStdString()));
+        json = op.parseJSON(raw_json.toStdString());
     } catch (ArrayException &err) {
-        mistake_msg = "Found Array mistake at line " + QString::number(err.getPosition().getRow()) +
-                " at character " + QString::number(err.getPosition().getColumn()) +
-                ": " + err.what();
+        mistake_msg = "Found Array mistake: " + QString(err.what());
+        mistake_pos = err.getPosition();
     } catch (ObjectException &err) {
-        mistake_msg = "Found Object mistake at line " + QString::number(err.getPosition().getRow()) +
-                " at character " + QString::number(err.getPosition().getColumn()) +
-                ": " + err.what();
+        mistake_msg = "Found Object mistake: " + QString(err.what());
+        mistake_pos = err.getPosition();
     } catch (KeyValuePairException &err) {
-        mistake_msg = "Found Object mistake at line " + QString::number(err.getPosition().getRow()) +
-                " at character " + QString::number(err.getPosition().getColumn()) +
-                ": " + err.what();
+        mistake_msg = "Found Object mistake: " + QString(err.what());
+        mistake_pos = err.getPosition();
     } catch (BooleanException &err) {
-        mistake_msg = "Found Boolean mistake at line " + QString::number(err.getPosition().getRow()) +
-                " at character " + QString::number(err.getPosition().getColumn()) +
-                ": " + err.what();
+        mistake_msg = "Found Boolean mistake: " + QString(err.what());
+        mistake_pos = err.getPosition();
     } catch (NullException &err) {
-        mistake_msg = "Found Null mistake at line " + QString::number(err.getPosition().getRow()) +
-                " at character " + QString::number(err.getPosition().getColumn()) +
-                ": " + err.what();
+        mistake_msg = "Found Null mistake: " + QString(err.what());
+        mistake_pos = err.getPosition();
     } catch (NumberException &err) {
-        mistake_msg = "Found Number mistake at line " + QString::number(err.getPosition().getRow()) +
-                " at character " + QString::number(err.getPosition().getColumn()) +
-                ": " + err.what();
+        mistake_msg = "Found Number mistake: " + QString(err.what());
+        mistake_pos = err.getPosition();
     } catch (StringException &err) {
-        mistake_msg = "Found String mistake at line " + QString::number(err.getPosition().getRow()) +
-                " at character " + QString::number(err.getPosition().getColumn()) +
-                ": " + err.what();
+        mistake_msg = "Found String mistake: " + QString(err.what());
+        mistake_pos = err.getPosition();
     } catch (JSONException &err) {
-        mistake_msg = "Found JSON mistake at line " + QString::number(err.getPosition().getRow()) +
-                " at character " + QString::number(err.getPosition().getColumn()) +
-                ": " + err.what();
+        mistake_msg = "Found JSON mistake: " + QString(err.what());
+        mistake_pos = err.getPosition();
     } catch (std::exception &err) {
         mistake_msg = "Found some mistake: " + QString(err.what());
     }
+
+    if (mistake_msg.size()) {
+        highlightMistake(ui->plnte_main, raw_json, mistake_pos);
+        mistake_msg += " (line " + QString::number(mistake_pos.getRow() + 1) + ",";
+        mistake_msg += " character " + QString::number(mistake_pos.getColumn() + 1) + ")";
+    } else {
+        mistake_msg = "No mistakes found!";
+        TextHighlighter highlighter(ui->plnte_main);
+        highlighter.clear();
+        op.printOnWidget(*json, highlighter, "    ");
+        highlighter.moveCursor(QTextCursor::Start);
+    }
+
     ui->statusbar->showMessage(mistake_msg, ERROR_DISPLAYING_TIMEOUT);
 }
 
 void MainWindow::autoFormat() {
     findMistakes();
-    Operation op;
-    QString raw_json = ui->plnte_main->toPlainText();
-    ui->plnte_main->setPlainText(QString::fromStdString(op.parseJSON(raw_json.toStdString())));
+//    Operation op;
+//    QString raw_json = ui->plnte_main->toPlainText();
+//    ui->plnte_main->setPlainText(QString::fromStdString(op.parseJSON(raw_json.toStdString())));
 }
 
 void MainWindow::switchLineWrap() {

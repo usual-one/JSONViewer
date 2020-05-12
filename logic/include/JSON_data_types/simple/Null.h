@@ -7,7 +7,9 @@ class Null : public SimpleDT {
 public:
     size_t fromStdString(const std::string &string) final;
 
-    std::string toStdString(const std::string &prefix = "") final;
+    std::string toStdString() final;
+
+    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
 };
 
 #endif // DATA_TYPES_NULL_H

@@ -12,7 +12,7 @@ KeyValuePair::KeyValuePair() {
 
 size_t KeyValuePair::fromStdString(const std::string &string) {
     key_ = std::make_unique<String>();
-    key_->setBeginPos(pos_.begin_);
+    key_->setBeginPos(getBeginPos());
     size_t key_consumed = key_->fromStdString(string);
 
     setEndPos(key_->getEndPos());
@@ -40,7 +40,7 @@ size_t KeyValuePair::fromStdString(const std::string &string) {
     size_t char_consumed = separator_pos + 1;
 
     for (size_t i = char_consumed; i < string.size(); i++) {
-        pos_.end_.setColumn(getEndPos().getColumn() + 1);
+        getEndPos().setColumn(getEndPos().getColumn() + 1);
         if (isJSONDTStartedWith(string[i])) {
             if (string[i] == '[') {
                 value_ = std::make_unique<Array>();
@@ -78,6 +78,20 @@ size_t KeyValuePair::fromStdString(const std::string &string) {
     return char_consumed;
 }
 
-std::string KeyValuePair::toStdString(const std::string &prefix) {
-    return prefix + key_->toStdString() + ": " + value_->toStdString();
+std::string KeyValuePair::toStdString() {
+    return key_->toStdString() + ": " + value_->toStdString();
+}
+
+void KeyValuePair::printOnWidget(TextHighlighter &highlighter, const std::string &prefix) {
+    highlighter.printKey((prefix + key_->toStdString()).data());
+    highlighter.print(": ");
+    value_->printOnWidget(highlighter);
+}
+
+std::unique_ptr<String> &KeyValuePair::getKey() {
+    return key_;
+}
+
+std::unique_ptr<JSONDT> &KeyValuePair::getValue() {
+    return value_;
 }

@@ -2,8 +2,7 @@
 #include "logic/include/exception/JSON_DT/NumberException.h"
 #include "logic/include/utils/JSON.h"
 
-size_t Number::fromStdString(const std::string &string)
-{
+size_t Number::fromStdString(const std::string &string) {
     setEndPos(getBeginPos());
     std::string number;
     number.clear();
@@ -48,6 +47,8 @@ size_t Number::fromStdString(const std::string &string)
                     throw NumberUnexpectedException(string[i], getEndPos());
                 }
 
+            } else {
+                number.append(1, string[i]);
             }
         } else if (isdigit(string[i])) {
             number.append(1, string[i]);
@@ -65,8 +66,11 @@ size_t Number::fromStdString(const std::string &string)
     return number.size();
 }
 
+std::string Number::toStdString() {
+    return std::to_string(instance_);
+}
 
-std::string Number::toStdString(const std::string &prefix)
-{
-    return prefix + std::to_string(instance_);
+void Number::printOnWidget(TextHighlighter &highlighter, const std::string &prefix) {
+    highlighter.printNumber(prefix.data());
+    highlighter.printNumber(QString::number(instance_));
 }

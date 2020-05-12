@@ -1,11 +1,11 @@
-#include "UI/include/setting_palettes.h"
+#include "UI/include/colors/setting_palettes.h"
 #include "UI/include/config.h"
 #include EDITOR_COLOR_SCHEME
 #include GLOBAL_COLOR_SCHEME
 
 void setDefaultPalette(QPlainTextEdit *widget) {
     QPalette palette = widget->palette();
-    palette.setColor(QPalette::Base, EDITOR_BACKGROUND_COLOR);
+    palette.setColor(QPalette::Base, EDITOR_DEFAULT_BACKGROUND_COLOR);
     palette.setColor(QPalette::Highlight, EDITOR_SELECTED_BACKGROUND_COLOR);
     palette.setColor(QPalette::Text, EDITOR_DEFAULT_TEXT_COLOR);
     widget->setPalette(palette);

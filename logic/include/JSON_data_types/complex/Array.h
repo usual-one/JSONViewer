@@ -10,7 +10,11 @@ class Array : public ComplexDT {
 public:
     size_t fromStdString(const std::string &string) final;
 
-    std::string toStdString(const std::string &prefix = "") final;
+    std::string toStdString() final;
+
+    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
+
+    std::vector<std::unique_ptr<JSONDT>> &getInstance();
 
 private:
     std::vector<std::unique_ptr<JSONDT>> instance_;

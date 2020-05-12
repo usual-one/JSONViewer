@@ -17,7 +17,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    UI/src/setting_palettes.cpp \
+    UI/src/printing/TextHighlighter.cpp \
+    UI/src/colors/setting_palettes.cpp \
+    UI/src/colors/text_highlighting.cpp \
+    UI/src/printing/TextPrinter.cpp \
     logic/src/JSON_data_types/JSONDT.cpp \
     logic/src/JSON_data_types/complex/Array.cpp \
     logic/src/JSON_data_types/complex/KeyValuePair.cpp \
@@ -35,15 +38,18 @@ SOURCES += \
     UI/src/mainwindow.cpp
 
 HEADERS += \
-    UI/include/color_scheme/color_scheme_defines.h \
-    UI/include/color_scheme/editor_color_schemes/gruvbox_dark.h \
-    UI/include/color_scheme/editor_color_schemes/gruvbox_light.h \
-    UI/include/color_scheme/editor_color_schemes/monokai.h \
-    UI/include/color_scheme/global_color_schemes/yaru_dark.h \
-    UI/include/color_scheme/global_color_schemes/yaru_light.h \
+    UI/include/printing/TextPrinter.h \
+    UI/include/colors/color_scheme/color_scheme_defines.h \
+    UI/include/colors/color_scheme/editor_color_schemes/gruvbox_dark.h \
+    UI/include/colors/color_scheme/editor_color_schemes/gruvbox_light.h \
+    UI/include/colors/color_scheme/editor_color_schemes/monokai.h \
+    UI/include/colors/color_scheme/global_color_schemes/yaru_dark.h \
+    UI/include/colors/color_scheme/global_color_schemes/yaru_light.h \
+    UI/include/colors/text_highlighting.h \
     UI/include/config.h \
     UI/include/mainwindow.h \
-    UI/include/setting_palettes.h \
+    UI/include/colors/setting_palettes.h \
+    UI/include/printing/TextHighlighter.h \
     logic/include/JSON_data_types/DT_headers.h \
     logic/include/JSON_data_types/JSONDT.h \
     logic/include/JSON_data_types/complex/Array.h \

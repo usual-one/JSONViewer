@@ -51,13 +51,28 @@ size_t Object::fromStdString(const std::string &string)
     return char_consumed;
 }
 
-std::string Object::toStdString(const std::string &prefix)
-{
-    std::string str = prefix + "{\n";
+std::string Object::toStdString() {
+    std::string str = "{\n";
     for (size_t i = 0; i < instance_.size() - 1; i++) {
-        str.append(prefix + instance_[i]->toStdString(prefix) + ",\n");
+        str.append(instance_[i]->toStdString() + ",\n");
     }
-    str.append(prefix + instance_[instance_.size() - 1]->toStdString(prefix) + "\n");
-    str.append(prefix + "}");
+    str.append(instance_[instance_.size() - 1]->toStdString() + "\n");
+    str.append("}");
     return str;
+}
+
+void Object::printOnWidget(TextHighlighter &highlighter, const std::string &prefix) {
+    highlighter.print((prefix + "{\n").data());
+    for (size_t i = 0; i < instance_.size() - 1; i++) {
+        highlighter.print(prefix.data());
+        instance_[i]->printOnWidget(highlighter, prefix);
+        highlighter.print(",\n");
+    }
+    highlighter.print(prefix.data());
+    instance_[instance_.size() - 1]->printOnWidget(highlighter, prefix);
+    highlighter.print("\n}");
+}
+
+std::vector<std::unique_ptr<KeyValuePair>> &Object::getInstance(){
+    return instance_;
 }
