@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "logic/include/facade.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -37,6 +39,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    QString path_;
+    Facade facade_;
+
+    TextHighlighter highlighter_;
 };
 #endif // MAINWINDOW_H

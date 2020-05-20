@@ -15,11 +15,7 @@ public:
 
     std::string toStdString() final;
 
-    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
-
-    std::unique_ptr<String> &getKey();
-
-    std::unique_ptr<JSONDT> &getValue();
+    std::vector<TextElement> toTextElements(Indent indent) final;
 
 private:
     std::unique_ptr<String> key_;

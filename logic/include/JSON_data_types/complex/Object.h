@@ -12,9 +12,7 @@ public:
 
     std::string toStdString() final;
 
-    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
-
-    std::vector<std::unique_ptr<KeyValuePair>> &getInstance();
+    std::vector<TextElement> toTextElements(Indent indent) final;
 
 private:
     std::vector<std::unique_ptr<KeyValuePair>> instance_;

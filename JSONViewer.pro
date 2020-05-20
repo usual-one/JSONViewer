@@ -17,10 +17,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    UI/src/printing/TextHighlighter.cpp \
+    UI/src/printing/Indent.cpp \
     UI/src/colors/setting_palettes.cpp \
-    UI/src/colors/text_highlighting.cpp \
-    UI/src/printing/TextPrinter.cpp \
+    UI/src/printing/texthighlighter.cpp \
     logic/src/JSON_data_types/JSONDT.cpp \
     logic/src/JSON_data_types/complex/Array.cpp \
     logic/src/JSON_data_types/complex/KeyValuePair.cpp \
@@ -29,16 +28,21 @@ SOURCES += \
     logic/src/JSON_data_types/simple/Null.cpp \
     logic/src/JSON_data_types/simple/Number.cpp \
     logic/src/JSON_data_types/simple/String.cpp \
-    logic/src/exception/FileException.cpp \
     logic/src/exception/JSONException.cpp \
-    logic/src/logic.cpp \
+    logic/src/facade.cpp \
+    logic/src/files/filedispatcher.cpp \
+    logic/src/files/fileexception.cpp \
+    logic/src/textmistake.cpp \
     logic/src/utils/JSON.cpp \
+    logic/src/utils/TextElement.cpp \
     logic/src/utils/TextPosition.cpp \
+    logic/src/utils/string.cpp \
     main.cpp \
     UI/src/mainwindow.cpp
 
 HEADERS += \
-    UI/include/printing/TextPrinter.h \
+    UI/include/colors/color_scheme/editor_color_schemes/qcivic.h \
+    UI/include/printing/CharFormatName.h \
     UI/include/colors/color_scheme/color_scheme_defines.h \
     UI/include/colors/color_scheme/editor_color_schemes/gruvbox_dark.h \
     UI/include/colors/color_scheme/editor_color_schemes/gruvbox_light.h \
@@ -46,10 +50,11 @@ HEADERS += \
     UI/include/colors/color_scheme/global_color_schemes/yaru_dark.h \
     UI/include/colors/color_scheme/global_color_schemes/yaru_light.h \
     UI/include/colors/text_highlighting.h \
-    UI/include/config.h \
+    UI/include/printing/texthighlighter.h \
+    config.h \
     UI/include/mainwindow.h \
     UI/include/colors/setting_palettes.h \
-    UI/include/printing/TextHighlighter.h \
+    UI/include/printing/Indent.h \
     logic/include/JSON_data_types/DT_headers.h \
     logic/include/JSON_data_types/JSONDT.h \
     logic/include/JSON_data_types/complex/Array.h \
@@ -63,7 +68,6 @@ HEADERS += \
     logic/include/JSON_data_types/simple/String.h \
     logic/include/exception/JSON_DT/ArrayException.h \
     logic/include/exception/JSON_DT/BooleanException.h \
-    logic/include/exception/FileException.h \
     logic/include/exception/JSONException.h \
     logic/include/exception/JSON_DT/DT_exception_headers.h \
     logic/include/exception/JSON_DT/KeyValuePairException.h \
@@ -71,9 +75,15 @@ HEADERS += \
     logic/include/exception/JSON_DT/NumberException.h \
     logic/include/exception/JSON_DT/ObjectException.h \
     logic/include/exception/JSON_DT/StringException.h \
-    logic/include/logic.h \
+    logic/include/facade.h \
+    logic/include/files/filedispatcher.h \
+    logic/include/files/fileexception.h \
+    logic/include/syntax_config.h \
+    logic/include/textmistake.h \
     logic/include/utils/JSON.h \
-    logic/include/utils/TextPosition.h
+    logic/include/utils/TextElement.h \
+    logic/include/utils/TextPosition.h \
+    logic/include/utils/string.h
 
 FORMS += \
     mainwindow.ui

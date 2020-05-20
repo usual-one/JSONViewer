@@ -1,0 +1,14 @@
+#ifndef PRINTING_CHARFORMATNAME_H
+#define PRINTING_CHARFORMATNAME_H
+
+enum CharFormatName {
+    DEFAULT_F,
+    MISTAKE_F,
+    KEY_F,
+    NUMBER_F,
+    STRING_F,
+    BOOLEAN_F,
+    NULL_F
+};
+
+#endif // PRINTING_CHARFORMATNAME_H

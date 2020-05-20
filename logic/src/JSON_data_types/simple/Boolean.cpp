@@ -1,21 +1,20 @@
 #include "logic/include/JSON_data_types/simple/Boolean.h"
 #include "logic/include/exception/JSON_DT/BooleanException.h"
+#include "logic/include/syntax_config.h"
 
 #include <cstring>
 
 size_t Boolean::fromStdString(const std::string &string) {
-    std::string true_value = "true";
-    std::string false_value = "false";
     setEndPos(getBeginPos());
 
     size_t char_consumed = 0;
 
-    if (!std::strncmp(string.data(), true_value.data(), true_value.size())) {
+    if (!std::strncmp(string.data(), TRUE_VALUE.data(), TRUE_VALUE.size())) {
         instance_ = true;
-        char_consumed = true_value.size();
-    } else if (!std::strncmp(string.data(), false_value.data(), false_value.size())) {
+        char_consumed = TRUE_VALUE.size();
+    } else if (!std::strncmp(string.data(), FALSE_VALUE.data(), FALSE_VALUE.size())) {
         instance_ = false;
-        char_consumed = false_value.size();
+        char_consumed = FALSE_VALUE.size();
     } else {
         throw BooleanUnexpectedException(string[0], getEndPos());
     }
@@ -25,9 +24,9 @@ size_t Boolean::fromStdString(const std::string &string) {
 }
 
 std::string Boolean::toStdString() {
-    return instance_ ? "true" : "false";
+    return instance_ ? TRUE_VALUE : FALSE_VALUE;
 }
 
-void Boolean::printOnWidget(TextHighlighter &highlighter, const std::string &prefix) {
-    highlighter.printBoolean((prefix + toStdString()).data());
+std::vector<TextElement> Boolean::toTextElements(Indent indent) {
+    return {TextElement(toStdString(), indent, BOOLEAN_F)};
 }

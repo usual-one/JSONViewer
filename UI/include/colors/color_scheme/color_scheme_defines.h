@@ -13,4 +13,6 @@
 
 #define EDITOR_GRUVBOX_LIGHT "UI/include/colors/color_scheme/editor_color_schemes/gruvbox_light.h"
 
+#define EDITOR_QCIVIC "UI/include/colors/color_scheme/editor_color_schemes/qcivic.h"
+
 #endif // COLOR_SCHEME_DEFINES_H

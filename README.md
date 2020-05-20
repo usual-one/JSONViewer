@@ -2,7 +2,11 @@
 JSON Reader & Viewer for BMSTU OPP course
 
 ### Description
-JSON Reader & Viewer is able to read and view [JSON](https://www.json.org/json-en.html) files in simple and beautiful form. If JSON file is invalid in some way, program will warn about it. Also auto formatting is available if no errors occurred.
+JSON Reader & Viewer is able to read and view [JSON](https://www.json.org/json-en.html) files in simple and beautiful form.
+
+In addition to basic functionality like opening and saving files (of any possible file format), it prodives ability to find mistakes, automaticly format and highlight JSON syntax.
+
+There are few color schemes for plain text (for JSON especially) and few color themes for the whole application. They can be changed in config.h 
 
 ### Languages & utils
 This project uses

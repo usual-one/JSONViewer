@@ -9,7 +9,9 @@ public:
 
     std::string toStdString() final;
 
-    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
+    std::vector<TextElement> toTextElements(Indent indent) final;
+
+//    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
 };
 
 #endif // DATA_TYPES_NULL_H

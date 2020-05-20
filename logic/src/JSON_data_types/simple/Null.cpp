@@ -1,15 +1,15 @@
 #include "logic/include/JSON_data_types/simple/Null.h"
 #include "logic/include/exception/JSON_DT/NullException.h"
+#include "logic/include/syntax_config.h"
 
 #include <cstring>
 
 size_t Null::fromStdString(const std::string &string) {
     setEndPos(getBeginPos());
-    std::string null_value = "null";
     size_t char_consumed = 0;
 
-    if (!std::strncmp(string.data(), null_value.data(), null_value.size())) {
-        char_consumed = null_value.size();
+    if (!std::strncmp(string.data(), NULL_VALUE.data(), NULL_VALUE.size())) {
+        char_consumed = NULL_VALUE.size();
     } else {
         throw NullUnexpectedException(string[0], getEndPos());
     }
@@ -19,9 +19,9 @@ size_t Null::fromStdString(const std::string &string) {
 }
 
 std::string Null::toStdString() {
-    return "null";
+    return NULL_VALUE;
 }
 
-void Null::printOnWidget(TextHighlighter &highlighter, const std::string &prefix) {
-    highlighter.printNull((prefix + toStdString()).data());
+std::vector<TextElement> Null::toTextElements(Indent indent) {
+    return {TextElement(toStdString(), indent, NULL_F)};
 }

@@ -1,13 +1,14 @@
 #include "logic/include/JSON_data_types/complex/Object.h"
 #include "logic/include/exception/JSON_DT/ObjectException.h"
 #include "logic/include/utils/JSON.h"
+#include "logic/include/syntax_config.h"
 
 size_t Object::fromStdString(const std::string &string)
 {
     size_t char_consumed = 0;
     setEndPos(getBeginPos());
 
-    if (string[0] != '{') {
+    if (string[0] != OBJECT_BORDER_BEGIN[0]) {
         throw ObjectBracketBeginException("no begin bracket found", getEndPos());
     }
     char_consumed++;
@@ -16,24 +17,24 @@ size_t Object::fromStdString(const std::string &string)
     bool comma_found = true;
     for (size_t i = char_consumed; i < string.size(); i++) {
         getEndPos().setColumn(getEndPos().getColumn() + 1);
-        if (string[i] == ',') {
+        if (string[i] == DEFAULT_VALUE_SEPARATOR[0]) {
             if (comma_found) {
                 throw ObjectUnexpectedException(string[i], getEndPos());
             }
             comma_found = true;
         } else {
             comma_found = false;
-            if (string[i] == '"') {
+            if (string[i] == STRING_BORDER[0]) {
                 instance_.push_back(std::make_unique<KeyValuePair>());
                 instance_[instance_.size() - 1]->setBeginPos(getEndPos());
                 i += instance_[instance_.size() - 1]->fromStdString(string.substr(i));
                 setEndPos(instance_[instance_.size() - 1]->getEndPos());
                 i--;
-            } else if (string[i] == '}') {
+            } else if (string[i] == OBJECT_BORDER_END[0]) {
                 end_found = true;
                 char_consumed = i + 1;
                 break;
-            } else if (string[i] == '\n') {
+            } else if (string[i] == DEFAULT_LINE_SEPARATOR[0]) {
                 getEndPos().setRow(getEndPos().getRow() + 1);
                 getEndPos().setColumn(-1);
             } else if (isJSONIgnored(string[i])) {
@@ -52,27 +53,36 @@ size_t Object::fromStdString(const std::string &string)
 }
 
 std::string Object::toStdString() {
-    std::string str = "{\n";
+    std::string str = OBJECT_BORDER_BEGIN;
     for (size_t i = 0; i < instance_.size() - 1; i++) {
-        str.append(instance_[i]->toStdString() + ",\n");
+        str.append(DEFAULT_LINE_SEPARATOR);
+        str.append(instance_[i]->toStdString());
+        str.append(DEFAULT_VALUE_SEPARATOR);
     }
-    str.append(instance_[instance_.size() - 1]->toStdString() + "\n");
-    str.append("}");
+    if (instance_.size()) {
+        str.append(DEFAULT_LINE_SEPARATOR);
+        str.append(instance_[instance_.size() - 1]->toStdString());
+        str.append(DEFAULT_LINE_SEPARATOR);
+    }
+    str.append(OBJECT_BORDER_END);
     return str;
 }
 
-void Object::printOnWidget(TextHighlighter &highlighter, const std::string &prefix) {
-    highlighter.print((prefix + "{\n").data());
-    for (size_t i = 0; i < instance_.size() - 1; i++) {
-        highlighter.print(prefix.data());
-        instance_[i]->printOnWidget(highlighter, prefix);
-        highlighter.print(",\n");
+std::vector<TextElement> Object::toTextElements(Indent indent) {
+    std::vector<TextElement> elements = {};
+    elements.push_back(TextElement(OBJECT_BORDER_BEGIN, Indent(indent.begin_)));
+    for (size_t i = 0; i < instance_.size(); i++) {
+        elements.push_back(TextElement(DEFAULT_LINE_SEPARATOR));
+        std::vector<TextElement> el_elements = instance_[i]->toTextElements(Indent(indent.end_ + DEFAULT_INDENT));
+        elements.insert(elements.end(), el_elements.begin(), el_elements.end());
+        elements.push_back(TextElement(DEFAULT_VALUE_SEPARATOR));
     }
-    highlighter.print(prefix.data());
-    instance_[instance_.size() - 1]->printOnWidget(highlighter, prefix);
-    highlighter.print("\n}");
-}
-
-std::vector<std::unique_ptr<KeyValuePair>> &Object::getInstance(){
-    return instance_;
+    if (instance_.size()) {
+        elements.pop_back();
+        elements.push_back(TextElement(DEFAULT_LINE_SEPARATOR));
+        elements.push_back(TextElement(OBJECT_BORDER_END, Indent(indent.end_)));
+    } else {
+        elements.push_back(TextElement(OBJECT_BORDER_END));
+    }
+    return elements;
 }

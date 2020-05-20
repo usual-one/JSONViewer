@@ -6,6 +6,7 @@
 #include <vector>
 
 class ComplexDT : public JSONDT {
+
 };
 
 #endif // DATA_TYPES_COMPLEXDT_H

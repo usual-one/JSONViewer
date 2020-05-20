@@ -1,23 +1,23 @@
 #include "UI/include/mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "logic/include/logic.h"
+#include "logic/include/facade.h"
 #include "logic/include/exception/JSON_DT/DT_exception_headers.h"
+#include "logic/include/syntax_config.h"
 
 #include "UI/include/colors/setting_palettes.h"
 #include "UI/include/colors/text_highlighting.h"
+#include "config.h"
 
 #include <QFileDialog>
-#include <QShortcut>
-#include <QDebug>
-
-const size_t ERROR_DISPLAYING_TIMEOUT = 7000;
+#include <QVector>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+    , ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
+    highlighter_ = TextHighlighter(ui->plnte_main);
 
     connect(ui->actNew, SIGNAL(triggered()), this, SLOT(newFile()));
     connect(ui->actOpen, SIGNAL(triggered()), this, SLOT(openFile()));
@@ -33,13 +33,11 @@ MainWindow::MainWindow(QWidget *parent)
     setPalettes();
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::setPalettes()
-{
+void MainWindow::setPalettes() {
     setDefaultPalette(ui->plnte_main);
     setDefaultPalette(this);
     setDefaultPalette(ui->menuFile);
@@ -48,36 +46,45 @@ void MainWindow::setPalettes()
 }
 
 void MainWindow::newFile() {
-    path_ = "";
+    facade_.openNew();
+
     ui->plnte_main->clear();
+
+    ui->statusbar->showMessage(NEW_FILE_MESSAGE, STATUS_DISPLAYING_TIMEOUT);
 }
 
 void MainWindow::openFile() {
-    path_ = QFileDialog::getOpenFileName(this, tr("Open"), "../JSONViewer/resource", tr("JSON (*.json)"));
-    if (!path_.size()) {
+    ui->statusbar->showMessage(OPEN_FILE_MESSAGE, STATUS_DISPLAYING_TIMEOUT);
+
+    QString path = QFileDialog::getOpenFileName(this, tr("Open"), "../JSONViewer/resource");
+    if (!path.size()) {
         return;
     }
-    Operation op;
-    QString raw_json = QString::fromStdString(op.loadFile(path_.toStdString()));
-    ui->plnte_main->setPlainText(raw_json);
-    findMistakes();
+
+    QString raw_text = QString::fromStdString(facade_.load(path.toStdString()));
+    ui->plnte_main->setPlainText(raw_text);
+    if (path.endsWith(".json")) {
+        findMistakes();
+    }
 }
 
 void MainWindow::saveFile() {
-    if (path_.size()) {
-        Operation op;
-        op.saveFile(path_.toStdString(), ui->plnte_main->toPlainText().toStdString());
+    if (facade_.pathSet()) {
+        facade_.save(ui->plnte_main->toPlainText().toStdString());
+        ui->statusbar->showMessage(SAVE_FILE_MESSAGE, STATUS_DISPLAYING_TIMEOUT);
     } else {
         saveFileAs();
     }
 }
 
 void MainWindow::saveFileAs() {
-    path_ = QFileDialog::getSaveFileName(this, tr("Save As"), "../JSONViewer/resource/", tr("JSON (*.json)"));
-    if (!path_.size()) {
+    QString path = QFileDialog::getSaveFileName(this, tr("Save As"), "../JSONViewer/resource/");
+    if (!path.size()) {
         return;
     }
-    saveFile();
+    facade_.saveTo(path.toStdString(), ui->plnte_main->toPlainText().toStdString());
+
+    ui->statusbar->showMessage(SAVED_AS_MESSAGE + path, STATUS_DISPLAYING_TIMEOUT);
 }
 
 void MainWindow::exit() {
@@ -85,62 +92,28 @@ void MainWindow::exit() {
 }
 
 void MainWindow::findMistakes() {
-    QString raw_json = ui->plnte_main->toPlainText();
-    Operation op;
+    TextMistake mistake = facade_.checkJSONMistakes(ui->plnte_main->toPlainText().toStdString());
 
-    QString mistake_msg = "";
-    std::unique_ptr<JSONDT> json = nullptr;
-    TextPosition mistake_pos;
-    try {
-        json = op.parseJSON(raw_json.toStdString());
-    } catch (ArrayException &err) {
-        mistake_msg = "Found Array mistake: " + QString(err.what());
-        mistake_pos = err.getPosition();
-    } catch (ObjectException &err) {
-        mistake_msg = "Found Object mistake: " + QString(err.what());
-        mistake_pos = err.getPosition();
-    } catch (KeyValuePairException &err) {
-        mistake_msg = "Found Object mistake: " + QString(err.what());
-        mistake_pos = err.getPosition();
-    } catch (BooleanException &err) {
-        mistake_msg = "Found Boolean mistake: " + QString(err.what());
-        mistake_pos = err.getPosition();
-    } catch (NullException &err) {
-        mistake_msg = "Found Null mistake: " + QString(err.what());
-        mistake_pos = err.getPosition();
-    } catch (NumberException &err) {
-        mistake_msg = "Found Number mistake: " + QString(err.what());
-        mistake_pos = err.getPosition();
-    } catch (StringException &err) {
-        mistake_msg = "Found String mistake: " + QString(err.what());
-        mistake_pos = err.getPosition();
-    } catch (JSONException &err) {
-        mistake_msg = "Found JSON mistake: " + QString(err.what());
-        mistake_pos = err.getPosition();
-    } catch (std::exception &err) {
-        mistake_msg = "Found some mistake: " + QString(err.what());
-    }
-
-    if (mistake_msg.size()) {
-        highlightMistake(ui->plnte_main, raw_json, mistake_pos);
-        mistake_msg += " (line " + QString::number(mistake_pos.getRow() + 1) + ",";
-        mistake_msg += " character " + QString::number(mistake_pos.getColumn() + 1) + ")";
+    if (facade_.hasMistake()) {
+        highlighter_.printMistakeHighlighted(ui->plnte_main->toPlainText(), mistake.getPosition());
     } else {
-        mistake_msg = "No mistakes found!";
-        TextHighlighter highlighter(ui->plnte_main);
-        highlighter.clear();
-        op.printOnWidget(*json, highlighter, "    ");
-        highlighter.moveCursor(QTextCursor::Start);
+        QString text = ui->plnte_main->toPlainText();
+        highlighter_.clear();
+        highlighter_.print(text);
     }
 
-    ui->statusbar->showMessage(mistake_msg, ERROR_DISPLAYING_TIMEOUT);
+    ui->statusbar->showMessage(QString::fromStdString(mistake.what()), ERROR_DISPLAYING_TIMEOUT);
 }
 
 void MainWindow::autoFormat() {
-    findMistakes();
-//    Operation op;
-//    QString raw_json = ui->plnte_main->toPlainText();
-//    ui->plnte_main->setPlainText(QString::fromStdString(op.parseJSON(raw_json.toStdString())));
+    TextMistake mistake = facade_.checkJSONMistakes(ui->plnte_main->toPlainText().toStdString());
+    if (facade_.hasMistake()) {
+        return;
+    }
+
+    highlighter_.clear();
+    std::vector<TextElement> json_elements = facade_.convertJSONToTextElements();
+    highlighter_.printTextElements(QVector<TextElement>(json_elements.begin(), json_elements.end()));
 }
 
 void MainWindow::switchLineWrap() {

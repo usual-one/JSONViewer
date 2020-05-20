@@ -9,10 +9,14 @@ public:
 
     std::string toStdString() final;
 
-    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
+    std::vector<TextElement> toTextElements(Indent indent) final;
+
+//    void printOnWidget(TextHighlighter &highlighter, const std::string &prefix = "") final;
 
 private:
     double instance_;
+
+    std::string in_text_;
 };
 
 #endif // DATA_TYPES_NUMBER_H

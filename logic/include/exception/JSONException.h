@@ -8,11 +8,11 @@
 
 class JSONException : public std::exception {
 public:
-    JSONException(size_t row = -1, size_t col = -1);
+    JSONException(size_t row = 0, size_t col = 0);
 
     JSONException(const TextPosition &pos);
 
-    explicit JSONException(const std::string &msg, size_t row = -1, size_t col = -1);
+    explicit JSONException(const std::string &msg, size_t row = 0, size_t col = 0);
 
     explicit JSONException(const std::string &msg, const TextPosition &pos);
 

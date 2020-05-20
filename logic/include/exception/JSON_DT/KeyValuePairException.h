@@ -1,21 +1,21 @@
 #ifndef EXCEPTION_DTKEYVALUEPAIR_H
 #define EXCEPTION_DTKEYVALUEPAIR_H
 
-#include "logic/include/exception/JSONException.h"
+#include "logic/include/exception/JSON_DT/ObjectException.h"
 
-class KeyValuePairException : public JSONException {
+class KeyValuePairException : public ObjectException {
 public:
     KeyValuePairException(size_t row = -1, size_t col = -1) :
-        JSONException(row, col) {}
+        ObjectException(row, col) {}
 
     KeyValuePairException(const TextPosition &pos) :
-        JSONException(pos) {}
+        ObjectException(pos) {}
 
     KeyValuePairException(const std::string &msg, size_t row = -1, size_t col = -1) :
-        JSONException (msg, row, col) {}
+        ObjectException (msg, row, col) {}
 
     KeyValuePairException(const std::string &msg, const TextPosition &pos) :
-        JSONException (msg, pos) {}
+        ObjectException (msg, pos) {}
 };
 
 class KeyValuePairNoValueException : public KeyValuePairException {
