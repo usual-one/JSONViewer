@@ -20,6 +20,7 @@ SOURCES += \
     logic/src/json/data_types/jsondt.cpp \
     logic/src/json/exception/jsonexception.cpp \
     logic/src/json/jsonparser.cpp \
+    logic/src/json/valueseparator.cpp \
     logic/src/text/indent.cpp \
     logic/src/text/textelement.cpp \
     logic/src/text/textmistake.cpp \
@@ -57,6 +58,8 @@ HEADERS += \
     logic/include/json/exception/jsonexception.h \
     logic/include/json/jsonparser.h \
     logic/include/json/syntax.h \
+    logic/include/json/syntax/syntaxelement.h \
+    logic/include/json/syntax/valueseparator.h \
     logic/include/text/charformatname.h \
     logic/include/text/indent.h \
     logic/include/text/textelement.h \

@@ -2,9 +2,9 @@
 #include "logic/include/json/exception/objectexception.h"
 #include "logic/include/json/syntax.h"
 #include "logic/include/json/jsonparser.h"
+#include "logic/include/json/syntax/valueseparator.h"
 
-size_t Object::fromStdString(const std::string &string)
-{
+size_t Object::fromStdString(const std::string &string) {
     size_t char_consumed = 0;
     setEndPos(getBeginPos());
 
@@ -15,24 +15,27 @@ size_t Object::fromStdString(const std::string &string)
     }
     char_consumed += OBJECT_BORDER_BEGIN.size();
 
+    ValueSeparator value_separator;
     bool end_found = false;
-    bool comma_found = true;
     for (size_t i = char_consumed; i < string.size(); i++) {
         getEndPos().nextCharacter();
         if (parser.isValueSeparator(std::string(1, string[i]))) {
-            if (comma_found) {
+            if (!value_separator.isNeeded()) {
                 throw ObjectUnexpectedException(string[i], getEndPos());
             }
-            comma_found = true;
+            value_separator.setNeeded(false);
             continue;
         }
-        comma_found = false;
         if (parser.startsLike(string.substr(i), STRING_DT)) {
+            if (value_separator.isNeeded()) {
+                throw ObjectUnexpectedException(string[i], getEndPos());
+            }
             instance_.push_back(std::make_unique<KeyValuePair>());
             instance_[instance_.size() - 1]->setBeginPos(getEndPos());
             i += instance_[instance_.size() - 1]->fromStdString(string.substr(i));
             setEndPos(instance_[instance_.size() - 1]->getEndPos());
             i--;
+            value_separator.setNeeded(true);
         } else if (parser.endsLike(string.substr(0, i + 1), OBJECT_DT)) {
             end_found = true;
             char_consumed = i + 1;

@@ -2,6 +2,7 @@
 #include "logic/include/json/exception/arrayexception.h"
 #include "logic/include/json/syntax.h"
 #include "logic/include/json/jsonparser.h"
+#include "logic/include/json/syntax/valueseparator.h"
 
 size_t Array::fromStdString(const std::string &string) {
     size_t char_consumed = 0;
@@ -14,24 +15,27 @@ size_t Array::fromStdString(const std::string &string) {
     }
     char_consumed += ARRAY_BORDER_BEGIN.size();
 
+    ValueSeparator value_separator;
     bool end_found = false;
-    bool separator_found = true;
     for (size_t i = char_consumed; i < string.size(); i++) {
         getEndPos().nextCharacter();
         if (parser.isValueSeparator(std::string(1, string[i]))) {
-            if (separator_found) {
+            if (!value_separator.isNeeded()) {
                 throw ArrayUnexpectedException(string[i], getEndPos());
             }
-            separator_found = true;
+            value_separator.setNeeded(false);
             continue;
         }
-        separator_found = false;
         if (parser.canJSONStartWith(string[i])) {
+            if (value_separator.isNeeded()) {
+                throw ArrayUnexpectedException(string[i], getEndPos());
+            }
             instance_.push_back(parser.createFromStartStr(string.substr(i)));
             instance_[instance_.size() - 1]->setBeginPos(getEndPos());
             i += instance_[instance_.size() - 1]->fromStdString(string.substr(i));
             setEndPos(instance_[instance_.size() - 1]->getEndPos());
             i--;
+            value_separator.setNeeded(true);
             continue;
         } else if (parser.endsLike(string.substr(0, i + 1), ARRAY_DT)) {
             end_found = true;
