@@ -1,26 +1,28 @@
 #include "logic/include/json/data_types/simple/number.h"
 #include "logic/include/json/exception/numberexception.h"
-#include "logic/include/json/json.h"
+#include "logic/include/json/jsonparser.h"
 
 size_t Number::fromStdString(const std::string &string) {
     setEndPos(getBeginPos());
     in_text_.clear();
 
+    JSONParser parser;
+
     bool e_found = false;
     bool dot_found = false;
 
     for (size_t i = 0; i < string.size(); i++) {
-        if (!isFromJSONNumber(string[i])) {
+        if (!parser.isFromNumber(string[i])) {
             break;
-        } else if (isUnarySignChar(string[i])) {
+        } else if (parser.isUnarySign(string[i])) {
             if (!i) {
                 in_text_.append(1, string[i]);
-            } else if (isEulersNumberChar(string[i - 1])) {
+            } else if (parser.isEulersNumber(string[i - 1])) {
                 in_text_.append(1, string[i]);
             } else {
                 throw NumberUnexpectedException(string[i], getEndPos());
             }
-        } else if (isEulersNumberChar(string[i])) {
+        } else if (parser.isEulersNumber(string[i])) {
             if (e_found) {
                 throw NumberUnexpectedException(string[i], getEndPos());
             } else {
@@ -30,17 +32,17 @@ size_t Number::fromStdString(const std::string &string) {
         } else if (string[i] == '.') {
             if (dot_found) {
                 throw NumberUnexpectedException(string[i], getEndPos());
-            } else if (!i || isUnarySignChar(string[i - 1])) {
+            } else if (!i || parser.isUnarySign(string[i - 1])) {
                 throw NumberUnexpectedException(string[i], getEndPos());
             } else {
                 in_text_.append(1, string[i]);
                 dot_found = true;
             }
         } else if (string[i] == '0') {
-            if (!i || isUnarySignChar(string[i - 1])) {
+            if (!i || parser.isUnarySign(string[i - 1])) {
                 if (i == string.size() - 1) {
                     in_text_.append(1, string[i]);
-                } else if (string[i + 1] == '.' || !isFromJSONNumber(string[i + 1])) {
+                } else if (string[i + 1] == '.' || !parser.isFromNumber(string[i + 1])) {
                     in_text_.append(1, string[i]);
                 } else {
                     throw NumberUnexpectedException(string[i], getEndPos());

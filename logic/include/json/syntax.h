@@ -1,5 +1,5 @@
-#ifndef SYNTAX_CONFIG_H
-#define SYNTAX_CONFIG_H
+#ifndef JSON_SYNTAX_H
+#define JSON_SYNTAX_H
 
 #include <string>
 
@@ -36,4 +36,4 @@ const std::string DEFAULT_VALUE_SEPARATOR = ",";
 
 const std::string DEFAULT_LINE_SEPARATOR = "\n";
 
-#endif // SYNTAX_CONFIG_H
+#endif // JSON_SYNTAX_H

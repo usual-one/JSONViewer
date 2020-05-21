@@ -1,43 +1,44 @@
 #include "logic/include/text/textposition.h"
 
-TextPosition::TextPosition()
-{
+TextPosition::TextPosition() {
     setPosition(0, 0);
 }
 
-TextPosition::TextPosition(int row, int col)
-{
+TextPosition::TextPosition(int row, int col) {
     setPosition(row, col);
 }
 
-void TextPosition::setPosition(int row, int col)
-{
+void TextPosition::setPosition(int row, int col) {
     setRow(row);
     setColumn(col);
 }
 
-void TextPosition::setPosition(const TextPosition &pos)
-{
+void TextPosition::setPosition(const TextPosition &pos) {
     setRow(pos.row_);
     setColumn(pos.column_);
 }
 
-void TextPosition::setRow(int row)
-{
+void TextPosition::setRow(int row) {
     row_ = row;
 }
 
-void TextPosition::setColumn(int col)
-{
+void TextPosition::setColumn(int col) {
     column_ = col;
 }
 
-int TextPosition::getRow() const
-{
+int TextPosition::getRow() const {
     return row_;
 }
 
-int TextPosition::getColumn() const
-{
+int TextPosition::getColumn() const {
     return column_;
+}
+
+void TextPosition::nextCharacter() {
+    column_ += 1;
+}
+
+void TextPosition::nextLine() {
+    row_ += 1;
+    column_ = -1;
 }

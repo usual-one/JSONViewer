@@ -74,20 +74,6 @@ void Facade::saveTo(const std::string &path, const std::string &data) {
     file_dispatcher_.writeTo(path, data);
 }
 
-std::shared_ptr<JSONDT> Facade::parseJSON(const std::string &json_string)
-{
-    if (!json_string.size()) {
-        return nullptr;
-    }
-    if (json_string[0] == '[') {
-        auto json = std::make_shared<Array>();
-        json->fromStdString(json_string);
-        return json;
-    }
-    if (json_string[0] == '{') {
-        auto json = std::make_shared<Object>();
-        json->fromStdString(json_string);
-        return json;
-    }
-    throw JSONException("unexpected character");
+std::shared_ptr<JSONDT> Facade::parseJSON(const std::string &json_string) {
+    return json_parser_.parse(json_string);
 }

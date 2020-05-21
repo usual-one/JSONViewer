@@ -19,7 +19,7 @@ SOURCES += \
     logic/src/json/data_types/simple/string.cpp \
     logic/src/json/data_types/jsondt.cpp \
     logic/src/json/exception/jsonexception.cpp \
-    logic/src/json/json.cpp \
+    logic/src/json/jsonparser.cpp \
     logic/src/text/indent.cpp \
     logic/src/text/textelement.cpp \
     logic/src/text/textmistake.cpp \
@@ -38,6 +38,7 @@ HEADERS += \
     logic/include/json/data_types/complex/complexdt.h \
     logic/include/json/data_types/complex/keyvaluepair.h \
     logic/include/json/data_types/complex/object.h \
+    logic/include/json/data_types/dtname.h \
     logic/include/json/data_types/simple/boolean.h \
     logic/include/json/data_types/simple/null.h \
     logic/include/json/data_types/simple/number.h \
@@ -54,7 +55,7 @@ HEADERS += \
     logic/include/json/exception/objectexception.h \
     logic/include/json/exception/stringexception.h \
     logic/include/json/exception/jsonexception.h \
-    logic/include/json/json.h \
+    logic/include/json/jsonparser.h \
     logic/include/json/syntax.h \
     logic/include/text/charformatname.h \
     logic/include/text/indent.h \

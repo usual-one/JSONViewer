@@ -2,8 +2,8 @@
 #include "logic/include/json/exception/keyvaluepairexception.h"
 #include "logic/include/json/data_types/dt_headers.h"
 #include "logic/include/json/syntax.h"
-#include "logic/include/json/json.h"
 #include "logic/include/utils/string_utils.h"
+#include "logic/include/json/jsonparser.h"
 
 #include <QDebug>
 
@@ -17,17 +17,18 @@ size_t KeyValuePair::fromStdString(const std::string &string) {
     key_->setBeginPos(getBeginPos());
     size_t key_consumed = key_->fromStdString(string);
 
+    JSONParser parser;
+
     setEndPos(key_->getEndPos());
 
     size_t separator_pos = string.size();
     for (size_t i = key_consumed; i < string.size(); i++) {
-        getEndPos().setColumn(getEndPos().getColumn() + 1);
-        if (string[i] == DEFAULT_LINE_SEPARATOR[0]) {
-            getEndPos().setRow(getEndPos().getRow() + 1);
-            getEndPos().setColumn(-1);
-        } else if (isJSONIgnored(string[i])) {
+        getEndPos().nextCharacter();
+        if (parser.isLineSeparator(string.substr(i))) {
+            getEndPos().nextLine();
+        } else if (parser.isJSONIgnored(string[i])) {
             continue;
-        } else if (string[i] == KEY_VALUE_PAIR_SEPARATOR[0]) {
+        } else if (parser.isKeyValuePairSeparator(std::string(1, string[i]))) {
             separator_pos = i;
             break;
         } else {
@@ -42,34 +43,19 @@ size_t KeyValuePair::fromStdString(const std::string &string) {
     size_t char_consumed = separator_pos + 1;
 
     for (size_t i = char_consumed; i < string.size(); i++) {
-        getEndPos().setColumn(getEndPos().getColumn() + 1);
-        if (isJSONDTStartedWith(string[i])) {
-            if (string[i] == ARRAY_BORDER_BEGIN[0]) {
-                value_ = std::make_unique<Array>();
-            } else if (string[i] == OBJECT_BORDER_BEGIN[0]) {
-                value_ = std::make_unique<Object>();
-            } else if (string[i] == STRING_BORDER[0]) {
-                value_ = std::make_unique<String>();
-            } else if (isBooleanStartedWith(string[i])) {
-                value_ = std::make_unique<Boolean>();
-            } else if (string[i] == NULL_VALUE[0]) {
-                value_ = std::make_unique<Null>();
-            } else if (isFromJSONNumber(string[i])) {
-                value_ = std::make_unique<Number>();
-            }
+        getEndPos().nextCharacter();
+        if (parser.canJSONStartWith(string[i])) {
+            value_ = parser.createFromStartStr(string.substr(i));
             value_->setBeginPos(getEndPos());
             char_consumed = i + value_->fromStdString(string.substr(i));
             setEndPos(value_->getEndPos());
             break;
+        } else if (parser.isLineSeparator(std::string(1, string[i]))) {
+            getEndPos().nextLine();
+        } else if (parser.isJSONIgnored(string[i])) {
+            continue;
         } else {
-            if (string[i] == DEFAULT_LINE_SEPARATOR[0]) {
-                getEndPos().setRow(getEndPos().getRow() + 1);
-                getEndPos().setColumn(-1);
-            } else if (isJSONIgnored(string[i])) {
-                continue;
-            } else {
-                throw KeyValuePairUnexpectedException(string[i], getEndPos());
-            }
+            throw KeyValuePairUnexpectedException(string[i], getEndPos());
         }
     }
 

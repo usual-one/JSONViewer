@@ -1,33 +1,35 @@
 #include "logic/include/json/data_types/simple/string.h"
 #include "logic/include/json/exception/stringexception.h"
 #include "logic/include/json/syntax.h"
+#include "logic/include/json/jsonparser.h"
 
 size_t String::fromStdString(const std::string &string) {
     setEndPos(getBeginPos());
     getEndPos().setColumn(getEndPos().getColumn());
     instance_.clear();
 
+    JSONParser parser;
+
     size_t char_consumed = 0;
-    if (string[0] != STRING_BORDER[0]) {
+    if (!parser.startsLike(string, STRING_DT)) {
         throw StringQuotationBeginException("no begin qoutation found", getEndPos());
     }
-    char_consumed++;
+    char_consumed += STRING_BORDER.size();
 
 
     for (size_t i = char_consumed; i < string.size(); i++) {
-        getEndPos().setColumn(getEndPos().getColumn() + 1);
-        if (string[i] == STRING_BORDER[0] && i) {
+        getEndPos().nextCharacter();
+        if (parser.endsLike(string.substr(0, i + 1), STRING_DT) && i) {
             char_consumed = i + 1;
             break;
         }
         instance_.append(1, string[i]);
-        if (string[i] == '\n') {
-            getEndPos().setRow(getEndPos().getRow() + 1);
-            getEndPos().setColumn(-1);
+        if (parser.isLineSeparator(std::string(1, string[i]))) {
+            getEndPos().nextLine();
         }
     }
 
-    if (string[char_consumed - 1] != STRING_BORDER[0]) {
+    if (parser.endsLike(string.substr(0, char_consumed - 1), STRING_DT)) {
         throw StringQuotationEndException("no end quotation found", getEndPos());
     }
     return char_consumed;

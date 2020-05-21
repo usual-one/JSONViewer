@@ -1,48 +1,50 @@
 #include "logic/include/json/data_types/complex/object.h"
 #include "logic/include/json/exception/objectexception.h"
-#include "logic/include/json/json.h"
 #include "logic/include/json/syntax.h"
+#include "logic/include/json/jsonparser.h"
 
 size_t Object::fromStdString(const std::string &string)
 {
     size_t char_consumed = 0;
     setEndPos(getBeginPos());
 
-    if (string[0] != OBJECT_BORDER_BEGIN[0]) {
+    JSONParser parser;
+
+    if (!parser.startsLike(string, OBJECT_DT)) {
         throw ObjectBracketBeginException("no begin bracket found", getEndPos());
     }
-    char_consumed++;
+    char_consumed += OBJECT_BORDER_BEGIN.size();
 
     bool end_found = false;
     bool comma_found = true;
     for (size_t i = char_consumed; i < string.size(); i++) {
-        getEndPos().setColumn(getEndPos().getColumn() + 1);
-        if (string[i] == DEFAULT_VALUE_SEPARATOR[0]) {
+        getEndPos().nextCharacter();
+        if (parser.isValueSeparator(std::string(1, string[i]))) {
             if (comma_found) {
                 throw ObjectUnexpectedException(string[i], getEndPos());
             }
             comma_found = true;
-        } else {
-            comma_found = false;
-            if (string[i] == STRING_BORDER[0]) {
-                instance_.push_back(std::make_unique<KeyValuePair>());
-                instance_[instance_.size() - 1]->setBeginPos(getEndPos());
-                i += instance_[instance_.size() - 1]->fromStdString(string.substr(i));
-                setEndPos(instance_[instance_.size() - 1]->getEndPos());
-                i--;
-            } else if (string[i] == OBJECT_BORDER_END[0]) {
-                end_found = true;
-                char_consumed = i + 1;
-                break;
-            } else if (string[i] == DEFAULT_LINE_SEPARATOR[0]) {
-                getEndPos().setRow(getEndPos().getRow() + 1);
-                getEndPos().setColumn(-1);
-            } else if (isJSONIgnored(string[i])) {
-                continue;
-            } else {
-                throw ObjectUnexpectedException(string[i], getEndPos());
-            }
+            continue;
         }
+        comma_found = false;
+        if (parser.startsLike(string.substr(i), STRING_DT)) {
+            instance_.push_back(std::make_unique<KeyValuePair>());
+            instance_[instance_.size() - 1]->setBeginPos(getEndPos());
+            i += instance_[instance_.size() - 1]->fromStdString(string.substr(i));
+            setEndPos(instance_[instance_.size() - 1]->getEndPos());
+            i--;
+        } else if (parser.endsLike(string.substr(0, i + 1), OBJECT_DT)) {
+            end_found = true;
+            char_consumed = i + 1;
+            break;
+        } else if (parser.isLineSeparator(std::string(1, string[i]))) {
+            getEndPos().nextLine();
+        } else if (parser.isJSONIgnored(string[i])) {
+            continue;
+        } else {
+            throw ObjectUnexpectedException(string[i], getEndPos());
+        }
+
     }
 
     if (!end_found) {

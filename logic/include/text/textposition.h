@@ -21,8 +21,13 @@ public:
 
     int getColumn() const;
 
+    void nextCharacter();
+
+    void nextLine();
+
 private:
     int row_;
+
     int column_;
 };
 

@@ -4,10 +4,9 @@
 #include <string>
 #include <memory>
 
-#include "logic/include/json/data_types/jsondt.h"
+#include "logic/include/json/jsonparser.h"
 #include "logic/include/files/filedispatcher.h"
 #include "logic/include/text/textmistake.h"
-#include "logic/include/text/textelement.h"
 
 class Facade {
 public:
@@ -34,9 +33,11 @@ public:
 private:
     FileDispatcher file_dispatcher_;
 
-    bool has_mistake_;
+    JSONParser json_parser_;
 
     std::shared_ptr<JSONDT> json_;
+
+    bool has_mistake_;
 };
 
 #endif // LOGICS_H
