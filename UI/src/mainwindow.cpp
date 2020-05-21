@@ -1,12 +1,7 @@
 #include "UI/include/mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "logic/include/facade.h"
-#include "logic/include/exception/JSON_DT/DT_exception_headers.h"
-#include "logic/include/syntax_config.h"
-
-#include "UI/include/colors/setting_palettes.h"
-#include "UI/include/colors/text_highlighting.h"
+#include "UI/include/colors/settings/setting_palettes.h"
 #include "config.h"
 
 #include <QFileDialog>
@@ -108,6 +103,7 @@ void MainWindow::findMistakes() {
 void MainWindow::autoFormat() {
     TextMistake mistake = facade_.checkJSONMistakes(ui->plnte_main->toPlainText().toStdString());
     if (facade_.hasMistake()) {
+        ui->statusbar->showMessage(QString::fromStdString(mistake.what()), ERROR_DISPLAYING_TIMEOUT);
         return;
     }
 

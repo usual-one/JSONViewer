@@ -4,9 +4,10 @@
 #include <string>
 #include <memory>
 
-#include "logic/include/JSON_data_types/JSONDT.h"
+#include "logic/include/json/data_types/jsondt.h"
 #include "logic/include/files/filedispatcher.h"
-#include "logic/include/textmistake.h"
+#include "logic/include/text/textmistake.h"
+#include "logic/include/text/textelement.h"
 
 class Facade {
 public:

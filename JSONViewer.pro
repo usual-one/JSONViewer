@@ -5,85 +5,75 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17 \
     warn_on
 
-# The following define makes your compiler emit warnings if you use
-# any Qt feature that has been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-# You can also make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
 SOURCES += \
-    UI/src/printing/Indent.cpp \
-    UI/src/colors/setting_palettes.cpp \
-    UI/src/printing/texthighlighter.cpp \
-    logic/src/JSON_data_types/JSONDT.cpp \
-    logic/src/JSON_data_types/complex/Array.cpp \
-    logic/src/JSON_data_types/complex/KeyValuePair.cpp \
-    logic/src/JSON_data_types/complex/Object.cpp \
-    logic/src/JSON_data_types/simple/Boolean.cpp \
-    logic/src/JSON_data_types/simple/Null.cpp \
-    logic/src/JSON_data_types/simple/Number.cpp \
-    logic/src/JSON_data_types/simple/String.cpp \
-    logic/src/exception/JSONException.cpp \
-    logic/src/facade.cpp \
     logic/src/files/filedispatcher.cpp \
     logic/src/files/fileexception.cpp \
-    logic/src/textmistake.cpp \
-    logic/src/utils/JSON.cpp \
-    logic/src/utils/TextElement.cpp \
-    logic/src/utils/TextPosition.cpp \
-    logic/src/utils/string.cpp \
-    main.cpp \
-    UI/src/mainwindow.cpp
+    logic/src/json/data_types/complex/array.cpp \
+    logic/src/json/data_types/complex/keyvaluepair.cpp \
+    logic/src/json/data_types/complex/object.cpp \
+    logic/src/json/data_types/simple/boolean.cpp \
+    logic/src/json/data_types/simple/null.cpp \
+    logic/src/json/data_types/simple/number.cpp \
+    logic/src/json/data_types/simple/string.cpp \
+    logic/src/json/data_types/jsondt.cpp \
+    logic/src/json/exception/jsonexception.cpp \
+    logic/src/json/json.cpp \
+    logic/src/text/indent.cpp \
+    logic/src/text/textelement.cpp \
+    logic/src/text/textmistake.cpp \
+    logic/src/text/textposition.cpp \
+    logic/src/utils/string_utils.cpp \
+    logic/src/facade.cpp \
+    UI/src/colors/settings/setting_palettes.cpp \
+    UI/src/output/texthighlighter.cpp \
+    UI/src/mainwindow.cpp \
+    main.cpp
 
 HEADERS += \
+    logic/include/files/filedispatcher.h \
+    logic/include/files/fileexception.h \
+    logic/include/json/data_types/complex/array.h \
+    logic/include/json/data_types/complex/complexdt.h \
+    logic/include/json/data_types/complex/keyvaluepair.h \
+    logic/include/json/data_types/complex/object.h \
+    logic/include/json/data_types/simple/boolean.h \
+    logic/include/json/data_types/simple/null.h \
+    logic/include/json/data_types/simple/number.h \
+    logic/include/json/data_types/simple/simpledt.h \
+    logic/include/json/data_types/simple/string.h \
+    logic/include/json/data_types/dt_headers.h \
+    logic/include/json/data_types/jsondt.h \
+    logic/include/json/exception/arrayexception.h \
+    logic/include/json/exception/booleanexception.h \
+    logic/include/json/exception/dt_exception_headers.h \
+    logic/include/json/exception/keyvaluepairexception.h \
+    logic/include/json/exception/nullexception.h \
+    logic/include/json/exception/numberexception.h \
+    logic/include/json/exception/objectexception.h \
+    logic/include/json/exception/stringexception.h \
+    logic/include/json/exception/jsonexception.h \
+    logic/include/json/json.h \
+    logic/include/json/syntax.h \
+    logic/include/text/charformatname.h \
+    logic/include/text/indent.h \
+    logic/include/text/textelement.h \
+    logic/include/text/textmistake.h \
+    logic/include/text/textposition.h \
+    logic/include/utils/string_utils.h \
+    logic/include/facade.h \
     UI/include/colors/color_scheme/editor_color_schemes/qcivic.h \
-    UI/include/printing/CharFormatName.h \
-    UI/include/colors/color_scheme/color_scheme_defines.h \
     UI/include/colors/color_scheme/editor_color_schemes/gruvbox_dark.h \
     UI/include/colors/color_scheme/editor_color_schemes/gruvbox_light.h \
     UI/include/colors/color_scheme/editor_color_schemes/monokai.h \
     UI/include/colors/color_scheme/global_color_schemes/yaru_dark.h \
     UI/include/colors/color_scheme/global_color_schemes/yaru_light.h \
-    UI/include/colors/text_highlighting.h \
-    UI/include/printing/texthighlighter.h \
-    config.h \
+    UI/include/colors/color_scheme/color_scheme_defines.h \
+    UI/include/colors/settings/setting_palettes.h \
+    UI/include/output/texthighlighter.h \
     UI/include/mainwindow.h \
-    UI/include/colors/setting_palettes.h \
-    UI/include/printing/Indent.h \
-    logic/include/JSON_data_types/DT_headers.h \
-    logic/include/JSON_data_types/JSONDT.h \
-    logic/include/JSON_data_types/complex/Array.h \
-    logic/include/JSON_data_types/complex/ComplexDT.h \
-    logic/include/JSON_data_types/complex/KeyValuePair.h \
-    logic/include/JSON_data_types/complex/Object.h \
-    logic/include/JSON_data_types/simple/Boolean.h \
-    logic/include/JSON_data_types/simple/Null.h \
-    logic/include/JSON_data_types/simple/Number.h \
-    logic/include/JSON_data_types/simple/SimpleDT.h \
-    logic/include/JSON_data_types/simple/String.h \
-    logic/include/exception/JSON_DT/ArrayException.h \
-    logic/include/exception/JSON_DT/BooleanException.h \
-    logic/include/exception/JSONException.h \
-    logic/include/exception/JSON_DT/DT_exception_headers.h \
-    logic/include/exception/JSON_DT/KeyValuePairException.h \
-    logic/include/exception/JSON_DT/NullException.h \
-    logic/include/exception/JSON_DT/NumberException.h \
-    logic/include/exception/JSON_DT/ObjectException.h \
-    logic/include/exception/JSON_DT/StringException.h \
-    logic/include/facade.h \
-    logic/include/files/filedispatcher.h \
-    logic/include/files/fileexception.h \
-    logic/include/syntax_config.h \
-    logic/include/textmistake.h \
-    logic/include/utils/JSON.h \
-    logic/include/utils/TextElement.h \
-    logic/include/utils/TextPosition.h \
-    logic/include/utils/string.h
+    config.h
 
 FORMS += \
     mainwindow.ui

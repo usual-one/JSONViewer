@@ -1,7 +1,7 @@
 #include "logic/include/facade.h"
-#include "logic/include/JSON_data_types/complex/Array.h"
-#include "logic/include/JSON_data_types/complex/Object.h"
-#include "logic/include/exception/JSON_DT/DT_exception_headers.h"
+#include "logic/include/json/data_types/complex/array.h"
+#include "logic/include/json/data_types/complex/object.h"
+#include "logic/include/json/exception/dt_exception_headers.h"
 #include "config.h"
 
 Facade::Facade() {

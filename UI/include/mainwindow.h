@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "logic/include/facade.h"
+#include "UI/include/output/texthighlighter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
