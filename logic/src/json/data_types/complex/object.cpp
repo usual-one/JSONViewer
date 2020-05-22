@@ -3,6 +3,7 @@
 #include "logic/include/json/syntax.h"
 #include "logic/include/json/jsonparser.h"
 #include "logic/include/json/syntax/valueseparator.h"
+#include "logic/include/json/data_types/complex/inner/keyvaluepair.h"
 
 size_t Object::fromStdString(const std::string &string) {
     size_t char_consumed = 0;

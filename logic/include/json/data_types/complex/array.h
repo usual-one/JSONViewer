@@ -13,9 +13,6 @@ public:
     std::string toStdString() final;
 
     std::vector<TextElement> toTextElements(Indent indent) final;
-
-private:
-    std::vector<std::unique_ptr<JSONDT>> instance_;
 };
 
 #endif // DATA_TYPES_ARRAY_H

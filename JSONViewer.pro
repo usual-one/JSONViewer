@@ -11,8 +11,8 @@ SOURCES += \
     logic/src/files/filedispatcher.cpp \
     logic/src/files/fileexception.cpp \
     logic/src/json/data_types/complex/array.cpp \
-    logic/src/json/data_types/complex/keyvaluepair.cpp \
     logic/src/json/data_types/complex/object.cpp \
+    logic/src/json/data_types/complex/inner/keyvaluepair.cpp \
     logic/src/json/data_types/simple/boolean.cpp \
     logic/src/json/data_types/simple/null.cpp \
     logic/src/json/data_types/simple/number.cpp \
@@ -37,8 +37,9 @@ HEADERS += \
     logic/include/files/fileexception.h \
     logic/include/json/data_types/complex/array.h \
     logic/include/json/data_types/complex/complexdt.h \
-    logic/include/json/data_types/complex/keyvaluepair.h \
     logic/include/json/data_types/complex/object.h \
+    logic/include/json/data_types/complex/inner/innerdt.h \
+    logic/include/json/data_types/complex/inner/keyvaluepair.h \
     logic/include/json/data_types/dtname.h \
     logic/include/json/data_types/simple/boolean.h \
     logic/include/json/data_types/simple/null.h \
