@@ -19,8 +19,20 @@ SOURCES += \
     logic/src/json/data_types/simple/string.cpp \
     logic/src/json/data_types/jsondt.cpp \
     logic/src/json/exception/jsonexception.cpp \
+    logic/src/json/syntax/charsets/dt/arraycharset.cpp \
+    logic/src/json/syntax/charsets/dt/booleancharset.cpp \
+    logic/src/json/syntax/charsets/dt/dtcharset.cpp \
+    logic/src/json/syntax/charsets/dt/nullcharset.cpp \
+    logic/src/json/syntax/charsets/dt/numbercharset.cpp \
+    logic/src/json/syntax/charsets/dt/objectcharset.cpp \
+    logic/src/json/syntax/charsets/dt/stringcharset.cpp \
+    logic/src/json/syntax/charsets/ignoredcharset.cpp \
+    logic/src/json/syntax/single_elements/indentsyntaxelement.cpp \
+    logic/src/json/syntax/single_elements/keyvalueseparator.cpp \
+    logic/src/json/syntax/single_elements/lineseparator.cpp \
+    logic/src/json/syntax/single_elements/spacesyntaxelement.cpp \
+    logic/src/json/syntax/single_elements/valueseparator.cpp \
     logic/src/json/jsonparser.cpp \
-    logic/src/json/valueseparator.cpp \
     logic/src/text/indent.cpp \
     logic/src/text/textelement.cpp \
     logic/src/text/textmistake.cpp \
@@ -58,9 +70,23 @@ HEADERS += \
     logic/include/json/exception/stringexception.h \
     logic/include/json/exception/jsonexception.h \
     logic/include/json/jsonparser.h \
-    logic/include/json/syntax.h \
+    logic/include/json/syntax/syntax.h \
+    logic/include/json/syntax/charsets/charset.h \
+    logic/include/json/syntax/charsets/dt/arraycharset.h \
+    logic/include/json/syntax/charsets/dt/booleancharset.h \
+    logic/include/json/syntax/charsets/dt/dtcharset.h \
+    logic/include/json/syntax/charsets/dt/nullcharset.h \
+    logic/include/json/syntax/charsets/dt/numbercharset.h \
+    logic/include/json/syntax/charsets/dt/objectcharset.h \
+    logic/include/json/syntax/charsets/dt/stringcharset.h \
+    logic/include/json/syntax/charsets/ignoredcharset.h \
+    logic/include/json/syntax/single_elements/indentsyntaxelement.h \
+    logic/include/json/syntax/single_elements/keyvalueseparator.h \
+    logic/include/json/syntax/single_elements/lineseparator.h \
+    logic/include/json/syntax/single_elements/singlesyntaxelement.h \
+    logic/include/json/syntax/single_elements/spacesyntaxelement.h \
+    logic/include/json/syntax/single_elements/valueseparator.h \
     logic/include/json/syntax/syntaxelement.h \
-    logic/include/json/syntax/valueseparator.h \
     logic/include/text/charformatname.h \
     logic/include/text/indent.h \
     logic/include/text/textelement.h \

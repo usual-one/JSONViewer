@@ -1,6 +1,6 @@
 #include "logic/include/json/data_types/simple/boolean.h"
 #include "logic/include/json/exception/booleanexception.h"
-#include "logic/include/json/syntax.h"
+#include "logic/include/json/syntax/charsets/dt/booleancharset.h"
 
 #include <cstring>
 
@@ -9,12 +9,14 @@ size_t Boolean::fromStdString(const std::string &string) {
 
     size_t char_consumed = 0;
 
-    if (!std::strncmp(string.data(), TRUE_VALUE.data(), TRUE_VALUE.size())) {
+    if (!std::strncmp(string.data(), BooleanCharSet::getTrue().data(),
+                      BooleanCharSet::getTrue().size())) {
         instance_ = true;
-        char_consumed = TRUE_VALUE.size();
-    } else if (!std::strncmp(string.data(), FALSE_VALUE.data(), FALSE_VALUE.size())) {
+        char_consumed = BooleanCharSet::getTrue().size();
+    } else if (!std::strncmp(string.data(), BooleanCharSet::getFalse().data(),
+                             BooleanCharSet::getFalse().size())) {
         instance_ = false;
-        char_consumed = FALSE_VALUE.size();
+        char_consumed = BooleanCharSet::getFalse().size();
     } else {
         throw BooleanUnexpectedException(string[0], getEndPos());
     }
@@ -24,7 +26,7 @@ size_t Boolean::fromStdString(const std::string &string) {
 }
 
 std::string Boolean::toStdString() {
-    return instance_ ? TRUE_VALUE : FALSE_VALUE;
+    return BooleanCharSet::toStdString(instance_);
 }
 
 std::vector<TextElement> Boolean::toTextElements(Indent indent) {
