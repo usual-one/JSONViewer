@@ -1,5 +1,5 @@
 # JSONViewer
-JSON Reader & Viewer for BMSTU OPP course
+JSON Reader & Viewer for BMSTU OOP course
 
 ### Description
 JSON Reader & Viewer is able to read and view [JSON](https://www.json.org/json-en.html) files in simple and beautiful form.
