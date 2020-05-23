@@ -8,6 +8,8 @@ In addition to basic functionality like opening and saving files (of any possibl
 
 There are few color schemes for plain text (for JSON especially) and few color themes for the whole application. They can be changed in config.h 
 
+![Color schemes](https://sun1-24.userapi.com/_4yasGFKSnVUGAUTMFRQ77YaX4VvNbmQgeQ6tw/GXkLqxHkrDM.jpg)
+
 ### Languages & utils
 This project uses
 - C++ 17
